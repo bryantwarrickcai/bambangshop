@@ -77,6 +77,9 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+1. Using a `trait` instead of just using a single struct is a good design choice in this case. Using an interface is good practice because different types of subscribers may handle notifications differently. Additionally, we might want to extend the notification system in the future. If we only use a single struct, it would limit flexibility, and make it harder to extend in the future when different subscriber behaviors are needed. While a single `struct` could work for a basic implementation, it is generally recommended to use a `trait` instead.
+2. Using a `DashMap` is generally more recommended than a `Vec`. Using `DashMap` has multiple advantages compared to `Vec`. Using `DashMap` allows indexing in O(1) time when finding products by ID, whereas using `Vec` requires a worst-case time complexity of O(n). Using a `DashMap` also handles insertion and deletion of products more efficiently, since using `Vec` requires shifting elements, which may require a bigger time complexity. Using a `DashMap` also helps prevent duplicates, since one key can only map to one value. Using `Vec` requires a manual check.
+3. `DashMap` is required in this case. `DashMap` is a custom implementation of `HashMap` optimized for high-performance multithreaded access. Using the Singleton pattern alone does not inherently provide thread safety. If Singleton is used without `DashMap`, we would need more boilerplate code to ensure thread safety. Singleton can be combined with `DashMap` to achieve both single-instance control and efficient thread-safe access. By using `DashMap`, we can have multiple threads reading simulatenously, and also multiple threads writing safely.
 
 #### Reflection Publisher-2
 
